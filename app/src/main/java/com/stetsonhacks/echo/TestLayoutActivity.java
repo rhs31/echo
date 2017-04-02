@@ -9,6 +9,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.stetsonhacks.echo.daos.FakeMessageDAOImpl;
+import com.stetsonhacks.echo.daos.MessageDAO;
+import com.stetsonhacks.echo.daos.MessageDAOFactory;
+
 import java.util.ArrayList;
 
 import static java.util.Arrays.asList;
@@ -28,7 +32,7 @@ public class TestLayoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_test_layout);
 
 
-
+        MessageDAO messageDAO = MessageDAOFactory.get();
 
     }
 
