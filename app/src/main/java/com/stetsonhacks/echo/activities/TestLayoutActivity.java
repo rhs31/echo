@@ -27,6 +27,8 @@ import java.util.List;
 public class TestLayoutActivity extends WithLocationActivity {
     private static final String TAG = "TestLayoutActivity";
 
+    private int radius = 50;
+
     public void writeMessage(View view) {
         Intent myIntent = new Intent(TestLayoutActivity.this, SendMessageActivity.class);
         TestLayoutActivity.this.startActivity(myIntent);
@@ -36,29 +38,24 @@ public class TestLayoutActivity extends WithLocationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_layout);
-        final TextView radiusText = (TextView)(findViewById(R.id.radiusText));
-        final SeekBar radiusBar = (SeekBar)findViewById(R.id.radiusSeekBar);
+        final TextView radiusText = (TextView) (findViewById(R.id.radiusText));
+        final SeekBar radiusBar = (SeekBar) findViewById(R.id.radiusSeekBar);
 
+        radiusText.setText("50m");
         radiusBar.setMax(100);
         radiusBar.setProgress(50);
-        radiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
-        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-            int min = 1;
-            int radius;
-            if (progress < min)
-            {
-                radius = min;
-                radiusBar.setProgress(min);
+        radiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                int min = 10;
+                if (progress < min) {
+                    radius = min;
+                    radiusBar.setProgress(min);
 
+                } else {
+                    radius = progress;
+                }
+                radiusText.setText(Integer.toString(radius) + "m");
             }
-            else
-            {
-                radius = progress;
-            }
-            radiusText.setText(Integer.toString(radius));
-
-
-    }
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -67,16 +64,12 @@ public class TestLayoutActivity extends WithLocationActivity {
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
+                load();
             }
+        });
+    }
 
-            ;
-            int radius = 10;
-            ArrayList<String>timesTableContent = new ArrayList<String>();
-
-        });}
-
-    public void onResume(){
+    public void onResume() {
         super.onResume();  // Always call the superclass method first
 
         Log.d(TAG, "----------------------location : " + getLastKnownLocation());
@@ -87,7 +80,13 @@ public class TestLayoutActivity extends WithLocationActivity {
             findViewById(R.id.floatingActionButton).setEnabled(false);
         } else {
             findViewById(R.id.floatingActionButton).setEnabled(true);
-            MessageDAOFactory.get().getAtLocation(getLastKnownLocation(), 70, new
+            load();
+        }
+    }
+
+    private void load() {
+        if (getLastKnownLocation() != null)
+            MessageDAOFactory.get().getAtLocation(getLastKnownLocation(), radius, new
                     Callback<List<Message>>() {
                         @Override
                         public void apply(final List<Message> messages) {
@@ -111,8 +110,6 @@ public class TestLayoutActivity extends WithLocationActivity {
                             });
                         }
                     });
-        }
-
     }
 }
 
