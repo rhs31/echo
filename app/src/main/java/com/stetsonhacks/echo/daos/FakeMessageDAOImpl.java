@@ -3,6 +3,7 @@ package com.stetsonhacks.echo.daos;
 import android.location.Location;
 
 import com.stetsonhacks.echo.models.Message;
+import com.stetsonhacks.echo.utils.Callback;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +17,7 @@ public class FakeMessageDAOImpl implements MessageDAO {
     }
 
     @Override
-    public List<Message> getAtLocation(Location location) {
-        return new ArrayList<>(messages);
+    public void getAtLocation(Location location, Callback<List<Message>> callback) {
+        callback.apply(new ArrayList<>(messages));
     }
 }
