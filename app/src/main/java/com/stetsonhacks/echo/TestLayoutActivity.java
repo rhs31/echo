@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.stetsonhacks.echo.daos.FakeMessageDAOImpl;
 import com.stetsonhacks.echo.daos.MessageDAO;
 import com.stetsonhacks.echo.daos.MessageDAOFactory;
+import com.stetsonhacks.echo.models.CustomAdapter;
 import com.stetsonhacks.echo.models.Message;
 
 import java.util.ArrayList;
@@ -20,7 +21,10 @@ import java.util.List;
 import static android.R.id.message;
 import static java.util.Arrays.asList;
 
+
+
 public class TestLayoutActivity extends AppCompatActivity {
+
 
     public void writeMessage(View view) {
         Intent myIntent = new Intent(TestLayoutActivity.this, SendMessageActivity.class);
@@ -45,8 +49,8 @@ public class TestLayoutActivity extends AppCompatActivity {
         {
             messageStrings.add(messages.get(i).content());
         }
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messageStrings);
-
+        //ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, messageStrings);
+        ArrayAdapter<Message> arrayAdapter = new CustomAdapter(this, android.R.id.text1, (ArrayList)messages);
         messageListView.setAdapter(arrayAdapter);
 
         messageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
