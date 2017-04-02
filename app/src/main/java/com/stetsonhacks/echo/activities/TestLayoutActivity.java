@@ -2,6 +2,7 @@ package com.stetsonhacks.echo.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -40,28 +41,35 @@ public class TestLayoutActivity extends WithLocationActivity {
 
         Log.d(TAG, "----------------------location : " + getLastKnownLocation());
 
-        MessageDAOFactory.get().getAtLocation(getLastKnownLocation(), new Callback<List<Message>>() {
-            @Override
-            public void apply(List<Message> messages) {
-                ListView messageListView = (ListView) findViewById(R.id.messageListView);
-                final ArrayList<String> messageStrings = new ArrayList<String>();
-                for (int i = 0; i < messages.size(); i++) {
-                    messageStrings.add(messages.get(i).content);
-                }
-                ArrayAdapter<Message> arrayAdapter = new MessageAdapter(TestLayoutActivity.this,
-                        android.R.id.text1, (ArrayList)messages, getLastKnownLocation());
-
-                messageListView.setAdapter(arrayAdapter);
-
-                messageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                        Toast.makeText(getApplicationContext(), messageStrings.get(i),
-                                Toast.LENGTH_SHORT).show();
+        if (getLastKnownLocation() == null) {
+            Toast.makeText(this, "You have to enable the GPS for this app to work.", Toast
+                    .LENGTH_LONG);
+            findViewById(R.id.floatingActionButton).setEnabled(false);
+        } else {
+            findViewById(R.id.floatingActionButton).setEnabled(true);
+            MessageDAOFactory.get().getAtLocation(getLastKnownLocation(), new Callback<List<Message>>() {
+                @Override
+                public void apply(List<Message> messages) {
+                    ListView messageListView = (ListView) findViewById(R.id.messageListView);
+                    final ArrayList<String> messageStrings = new ArrayList<String>();
+                    for (int i = 0; i < messages.size(); i++) {
+                        messageStrings.add(messages.get(i).content);
                     }
-                });
-            }
-        });
+                    ArrayAdapter<Message> arrayAdapter = new MessageAdapter(TestLayoutActivity.this,
+                            android.R.id.text1, (ArrayList) messages, getLastKnownLocation());
+
+                    messageListView.setAdapter(arrayAdapter);
+
+                    messageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                            Toast.makeText(getApplicationContext(), messageStrings.get(i),
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            });
+        }
 
     }
 }

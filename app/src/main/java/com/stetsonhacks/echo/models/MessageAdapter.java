@@ -13,7 +13,9 @@ import android.widget.TextView;
 import com.stetsonhacks.echo.R;
 import com.stetsonhacks.echo.activities.MapsActivity;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class MessageAdapter extends ArrayAdapter<Message> {
     private final Location actLocation;
@@ -68,8 +70,12 @@ public class MessageAdapter extends ArrayAdapter<Message> {
                 });
             }
 
+            SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            Date date = new Date(message.timestamp);
+            String dateString = fmt.format(date);
+
             viewHolder.contentView.setText(message.content);
-            viewHolder.timeView.setText(Long.toString(message.timestamp));
+            viewHolder.timeView.setText(dateString);
             viewHolder.distanceView.setText(locationStr);
 
 

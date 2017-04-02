@@ -30,7 +30,12 @@ public class SendMessageActivity extends WithLocationActivity {
                 GeoLocation geoLocation = new GeoLocation(location.getLongitude(), location
                         .getLatitude());
 
-                Message m = new Message(enterMessage.getText().toString(), geoLocation, 0, 1);
+                Message m = new Message(
+                        enterMessage.getText().toString(),
+                        geoLocation,
+                        System.currentTimeMillis(),
+                        1);
+
                 MessageDAO mdao = MessageDAOFactory.get();
                 mdao.post(m);
                 Log.d(TAG, "post !");
