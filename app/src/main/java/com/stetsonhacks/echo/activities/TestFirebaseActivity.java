@@ -1,10 +1,11 @@
-package com.stetsonhacks.echo;
+package com.stetsonhacks.echo.activities;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.stetsonhacks.echo.R;
 
 public class TestFirebaseActivity extends AppCompatActivity {
 
