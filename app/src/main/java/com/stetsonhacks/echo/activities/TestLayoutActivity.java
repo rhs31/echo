@@ -7,7 +7,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.stetsonhacks.echo.R;
@@ -32,18 +35,53 @@ public class TestLayoutActivity extends WithLocationActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_layout);
+        final TextView radiusText = (TextView)(findViewById(R.id.radiusText));
+        final SeekBar radiusBar = (SeekBar)findViewById(R.id.radiusSeekBar);
+
+        radiusBar.setMax(100);
+        radiusBar.setProgress(50);
+        radiusBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            int min = 1;
+            int radius;
+            if (progress < min)
+            {
+                radius = min;
+                radiusBar.setProgress(min);
+
+            }
+            else
+            {
+                radius = progress;
+            }
+            radiusText.setText(Integer.toString(radius));
+
 
     }
 
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
 
-    public void onResume() {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            ;
+            int radius = 10;
+            ArrayList<String>timesTableContent = new ArrayList<String>();
+
+        });}
+
+    public void onResume(){
         super.onResume();  // Always call the superclass method first
 
         Log.d(TAG, "----------------------location : " + getLastKnownLocation());
 
         if (getLastKnownLocation() == null) {
-            Toast.makeText(this, "You have to enable the GPS for this app to work.", Toast
-                    .LENGTH_LONG);
+            Toast.makeText(this, "You have to enable the GPS for this app to work.", Toast.LENGTH_LONG);
             findViewById(R.id.floatingActionButton).setEnabled(false);
         } else {
             findViewById(R.id.floatingActionButton).setEnabled(true);
