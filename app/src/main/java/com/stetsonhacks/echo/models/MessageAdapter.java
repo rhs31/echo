@@ -51,7 +51,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         final Message message = getItem(position);
         if (message != null) {
             String locationStr =  "no location";
-            if(message.location != null){
+            if(message.location != null && actLocation != null){
                 final Location msgLoc = new Location("");
                 msgLoc.setLongitude(message.location.longitude);
                 msgLoc.setLatitude(message.location.latitude);
