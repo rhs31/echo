@@ -19,5 +19,17 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Test Firebase"/>
+    <Button
+        android:id="@+id/test_layout"
+        android:layout_below="@+id/test_firebase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Layout"/>
+    <Button
+        android:id="@+id/test_map"
+        android:layout_below="@+id/test_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Map"/>
 
 </RelativeLayout>
