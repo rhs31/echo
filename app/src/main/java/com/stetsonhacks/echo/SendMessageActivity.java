@@ -17,7 +17,6 @@ public class SendMessageActivity extends AppCompatActivity {
 
     @Override
 
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_message);
@@ -33,6 +32,10 @@ public class SendMessageActivity extends AppCompatActivity {
             }
         });
 
+    }
+    public void cancel(View view)
+    {
+        finish();
     }
 
 }
