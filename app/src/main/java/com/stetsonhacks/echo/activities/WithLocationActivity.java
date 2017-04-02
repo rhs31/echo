@@ -37,8 +37,15 @@ public abstract class WithLocationActivity extends AppCompatActivity implements 
         super.onCreate(savedInstanceState);
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
+        Log.d(TAG, "check permission");
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            Log.d(TAG, "request permission");
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        } else {
+            Log.d(TAG, "has permission");
+
+            Log.d(TAG, "----------------------location after had permission : " +
+                    getLastKnownLocation());
         }
 //        else {
 //            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0,
@@ -54,6 +61,7 @@ public abstract class WithLocationActivity extends AppCompatActivity implements 
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.d(TAG, "request permission inside");
         if (requestCode == 1) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)

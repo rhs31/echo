@@ -59,15 +59,6 @@ public class MessageAdapter extends ArrayAdapter<Message> {
                 msgLoc.setLatitude(message.location.latitude);
                 locationStr = String.valueOf(((int)actLocation.distanceTo(msgLoc)) + "m away from" +
                         " you");
-
-                viewHolder.distanceView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        Intent i = new Intent(getContext(), MapsActivity.class);
-                        i.putExtra(MapsActivity.LOCATION_EXTRA, msgLoc);
-                        getContext().startActivity(i);
-                    }
-                });
             }
 
             SimpleDateFormat fmt = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");

@@ -17,7 +17,7 @@ public class FakeMessageDAOImpl implements MessageDAO {
     }
 
     @Override
-    public void getAtLocation(Location location, Callback<List<Message>> callback) {
+    public void getAtLocation(Location location, double radius, Callback<List<Message>> callback) {
         callback.apply(new ArrayList<>(messages));
     }
 }

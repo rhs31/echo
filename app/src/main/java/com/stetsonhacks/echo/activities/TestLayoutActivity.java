@@ -1,6 +1,7 @@
 package com.stetsonhacks.echo.activities;
 
 import android.content.Intent;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.util.Log;
@@ -43,32 +44,34 @@ public class TestLayoutActivity extends WithLocationActivity {
 
         if (getLastKnownLocation() == null) {
             Toast.makeText(this, "You have to enable the GPS for this app to work.", Toast
-                    .LENGTH_LONG);
+                    .LENGTH_LONG).show();
             findViewById(R.id.floatingActionButton).setEnabled(false);
         } else {
             findViewById(R.id.floatingActionButton).setEnabled(true);
-            MessageDAOFactory.get().getAtLocation(getLastKnownLocation(), new Callback<List<Message>>() {
-                @Override
-                public void apply(List<Message> messages) {
-                    ListView messageListView = (ListView) findViewById(R.id.messageListView);
-                    final ArrayList<String> messageStrings = new ArrayList<String>();
-                    for (int i = 0; i < messages.size(); i++) {
-                        messageStrings.add(messages.get(i).content);
-                    }
-                    ArrayAdapter<Message> arrayAdapter = new MessageAdapter(TestLayoutActivity.this,
-                            android.R.id.text1, (ArrayList) messages, getLastKnownLocation());
-
-                    messageListView.setAdapter(arrayAdapter);
-
-                    messageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            MessageDAOFactory.get().getAtLocation(getLastKnownLocation(), 70, new
+                    Callback<List<Message>>() {
                         @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
-                            Toast.makeText(getApplicationContext(), messageStrings.get(i),
-                                    Toast.LENGTH_SHORT).show();
+                        public void apply(final List<Message> messages) {
+                            ListView messageListView = (ListView) findViewById(R.id.messageListView);
+                            ArrayAdapter<Message> arrayAdapter = new MessageAdapter(TestLayoutActivity.this,
+                                    android.R.id.text1, (ArrayList) messages, getLastKnownLocation());
+
+                            messageListView.setAdapter(arrayAdapter);
+
+                            messageListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
+                                    Intent intent = new Intent(TestLayoutActivity.this, MapsActivity.class);
+                                    Message m = messages.get(i);
+                                    Location msgLoc = new Location("");
+                                    msgLoc.setLongitude(m.location.longitude);
+                                    msgLoc.setLatitude(m.location.latitude);
+                                    intent.putExtra(MapsActivity.LOCATION_EXTRA, msgLoc);
+                                    startActivity(intent);
+                                }
+                            });
                         }
                     });
-                }
-            });
         }
 
     }

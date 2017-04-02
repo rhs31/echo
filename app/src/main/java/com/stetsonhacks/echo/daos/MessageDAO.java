@@ -10,6 +10,6 @@ import java.util.List;
 public interface MessageDAO {
     void post(Message message);
 
-    void getAtLocation(Location location, Callback<List<Message>> callback);
+    void getAtLocation(Location location, double radius, Callback<List<Message>> callback);
 
 }
