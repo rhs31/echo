@@ -47,8 +47,8 @@ public class CustomAdapter extends ArrayAdapter<Message> {
         if (item!= null) {
             // My layout has only one TextView
             // do whatever you want with your string and long
-            viewHolder.contentView.setText(item.content());
-            viewHolder.timeView.setText(Long.toString(item.timestamp()));
+            viewHolder.contentView.setText(item.content);
+            viewHolder.timeView.setText(Long.toString(item.timestamp));
             viewHolder.distanceView.setText("Stetson University");
         }
 
